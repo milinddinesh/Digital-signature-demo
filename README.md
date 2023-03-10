@@ -5,7 +5,7 @@ The python script uses sha256 to create the hashes and RSA to create the signatu
 
 ## Requirements 
 rsa 
-install by `pipx install rsa`
+install by `pip3 install rsa`
 
 ## Usage 
 python3 main.py -e <your message here>
