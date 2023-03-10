@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 
 # A simple python application to demonstrate the use of Digital signature 
@@ -16,7 +17,6 @@ def keyGen():
         p.write(privateKey.save_pkcs1('PEM'))
 
 def loadKeys():
-    
     try:
         with open('keys/publicKey.pem', 'rb') as p:
             publicKey = rsa.PublicKey.load_pkcs1(p.read())
@@ -24,17 +24,15 @@ def loadKeys():
             privateKey = rsa.PrivateKey.load_pkcs1(p.read())
 
     except Exception as e:
-        print("Error : "+e)
+        print("Error while loading keys : ")
+        print(e)
     return (privateKey, publicKey)
 
-def verify(msg,publicKey,hash):
-    print("verify")
-    msg_hash = hashlib.sha256(msg.encode("UTF-8")).hexdigest
-    hash_decrypt = rsa.decrypt(hash,publicKey).decode("UTF-8")
-    print(msg_hash)
-    print(hash_decrypt)
-
-
+#A function just to verify the output . 
+def verify(sign , publicKey, message):
+    try:
+        return rsa.verify(message.encode("UTF-8"),sign,publicKey)
+    except : return False
 
 try:
     arguments,_ = getopt.getopt(argumentList,options)
@@ -45,10 +43,15 @@ try:
         hash = hashlib.sha256((value.encode("UTF-8"))).hexdigest()
         keyGen()
         (privateKey, publicKey) = loadKeys()
-        print("Failed")
-        sign = rsa.encrypt(hash.encode("UTF-8"),privateKey)
-        print("sign: ")
+        sign = rsa.sign(value.encode("UTF-8"),privateKey,"SHA-256")
+        print("Message : " + value + "\n")
+        print("sign")
         print(sign)
-        verify(hash,publicKey,sign)
-except:
-    print("something")
+        print("\n")
+        if verify(sign,publicKey,value):
+            print("Authentic")
+        else : 
+            print("Authenticity check failed")
+except Exception as e:
+    print("Some error occured: ")
+    print(e)
