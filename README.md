@@ -4,7 +4,7 @@ A simple python program that demonstrates the use of digital signature .
 The python script uses sha256 to create the hashes and RSA to create the signature using public/private key pair. 
 
 ## Requirements 
-rsa 
+rsa \n
 install by `pip3 install rsa`
 
 ## Usage 
