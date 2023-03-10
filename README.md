@@ -8,4 +8,4 @@ rsa \n
 install by `pip3 install rsa`
 
 ## Usage 
-python3 main.py -e <your message here>
+python3 main.py -e \<your message here\>
